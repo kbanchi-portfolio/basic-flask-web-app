@@ -10,6 +10,12 @@ from flask import jsonify
 
 from flask_cors import CORS
 
+from database import db
+from database import User
+from database import UserSchema
+from database import Task
+from database import TaskSchema
+
 from logger import get_logger
 
 load_dotenv(verbose=True)
@@ -18,6 +24,29 @@ logger = get_logger()
 
 app = Flask(__name__)
 CORS(app)
+
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///sqlalchemy.db"
+# DB_USER = os.environ.get("DB_USER")
+# DB_PASSWORD = os.environ.get("DB_PASSWORD")
+# DB_HOST = os.environ.get("DB_HOST")
+# DB_NAME = os.environ.get("DB_NAME")
+# app.config[
+#     "SQLALCHEMY_DATABASE_URI"
+# ] = "mysql+pymysql://{user}:{password}@{host}/{db_name}?charset=utf8".format(
+#     **{"user": DB_USER, "password": DB_PASSWORD, "host": DB_HOST, "db_name": DB_NAME}
+# )
+# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = os.environ.get(
+#     "SQLALCHEMY_TRACK_MODIFICATIONS"
+# )
+# app.config["SQLALCHEMY_ECHO"] = os.environ.get("SQLALCHEMY_ECHO")
+# app.config["SECRET_KEY"] = os.urandom(24)
+
+db.init_app(app)
+
+with app.app_context():
+    db.drop_all()
+    db.create_all()
+    db.session.commit()
 
 @app.route("/healthcheck")
 def healthcheck():
