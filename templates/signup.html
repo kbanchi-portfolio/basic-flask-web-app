@@ -1,5 +1,26 @@
 {% extends "layout_nologin.html" %}
 
 {% block content %}
-<h1>Signup</h1>
+<div class="text-center">
+    <div class="mt-2">
+        <h1 class="h3 fst-italic">SignUp</h1>
+        <form action="{{ url_for('signup_processing') }}" method="post">
+            <div class="form-group mt-4 mb-4 mx-2">
+                <div class="row">
+                    <div class="col-6 offset-3">
+                        <input class="form-control m-2" type="text" name="name" placeholder="Name" required>
+                        <input class="form-control m-2" type="email" name="email" placeholder="Email" required>
+                        <input class="form-control m-2" type="password" name="passwd" placeholder="Password" required>
+                        <input class="form-control m-2" type="password" name="passwdConfirm"
+                            placeholder="Password(Confirm)" required>
+                        <input class="btn btn-success" type="submit" value="SignUp">
+                        <div class="m-2">
+                            <a href="{{ url_for('login') }}" class="link-primary text-decoration-none">Login</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}

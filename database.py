@@ -39,6 +39,7 @@ class User(UserMixin, db.Model, TimestampMixin):
     name = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(200), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
+    tasks = relationship("Task", backref="users", cascade="all")
 
 
 class UserSchema(ma.Schema):
@@ -50,6 +51,7 @@ class UserSchema(ma.Schema):
             "created_at",
             "updated_at",
         )
+
 
 class Task(db.Model, TimestampMixin):
     """Task table
@@ -65,9 +67,6 @@ class Task(db.Model, TimestampMixin):
         unique=True,
     )
     description = db.Column(db.String(255), nullable=False)
-    user = relationship(
-        "user", backref="tasks", cascade="all"
-    )
 
 
 class TaskSchema(ma.Schema):
