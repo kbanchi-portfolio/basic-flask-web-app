@@ -1,5 +1,30 @@
 {% extends "layout_logined.html" %}
 
 {% block content %}
-<h1>Top</h1>
+<div>
+    <div class="m-4">
+        <div class="d-flex justify-content-end mt-2">
+            <a class="link-primary text-decoration-none m-2" href="{{ url_for('add') }}">Add Task</a>
+        </div>
+        <h1 class="h6 fw-bold">Top</h1>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>-</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                <tr>
+                    <td>{{ task.description }}</td>
+                    <td>
+                        <a class="btn btn-outline-success" href="{{ url_for('edit', id=task.id) }}">Edit</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}

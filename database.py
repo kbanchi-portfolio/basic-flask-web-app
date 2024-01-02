@@ -64,7 +64,6 @@ class Task(db.Model, TimestampMixin):
         db.Integer,
         ForeignKey("users.id", ondelete="CASCADE"),
         nullable=False,
-        unique=True,
     )
     description = db.Column(db.String(255), nullable=False)
 

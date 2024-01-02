@@ -16,6 +16,7 @@ from flask_login import LoginManager
 from flask_login import login_required
 from flask_login import login_user
 from flask_login import logout_user
+from flask_login import current_user
 
 from database import db
 from database import User
@@ -55,8 +56,9 @@ db.init_app(app)
 
 with app.app_context():
     login_manager = LoginManager(app)
-    db.drop_all()
-    db.create_all()
+    if os.environ.get("DB_INIT") == "init":
+        db.drop_all()
+        db.create_all()
     db.session.commit()
 
 
@@ -80,7 +82,7 @@ def signup():
     return render_template("signup.html")
 
 
-@app.route("/signup_processing", methods=["POST"])
+@app.route("/signup", methods=["POST"])
 def signup_processing():
     name = request.form["name"]
     email = request.form["email"]
@@ -136,14 +138,16 @@ def logout():
     return redirect(url_for("login"))
 
 
-@app.route("/top")
-def top():
-    return render_template("top.html")
-
-
 @app.route("/")
 def index():
     return redirect("/top")
+
+
+@app.route("/top")
+@login_required
+def top():
+    tasks = Task.query.filter_by(user_id=current_user.id).all()
+    return render_template("top.html", tasks=tasks)
 
 
 @app.route("/add")
@@ -152,10 +156,42 @@ def add():
     return render_template("add_task.html")
 
 
-@app.route("/edit")
+@app.route("/add", methods=["POST"])
 @login_required
-def edit():
-    return render_template("edit_task.html")
+def add_processing():
+    description = request.form["description"]
+    db.session.add(
+        Task(
+            user_id=current_user.id,
+            description=description,
+        )
+    )
+    db.session.commit()
+    flash("Create Task", "success")
+    return redirect("/top")
+
+
+@app.route("/edit/<id>")
+@login_required
+def edit(id):
+    task = Task.query.filter_by(id=id).first()
+    return render_template("edit_task.html", task=task)
+
+
+@app.route("/edit/<id>", methods=["POST"])
+@login_required
+def edit_processing(id):
+    method = request.form.get("_method", "").upper()
+    if method == "PUT":
+        task = Task.query.filter_by(id=id).first()
+        task.description = request.form["description"]
+        flash("Edit Task", "success")
+        db.session.commit()
+    elif method == "DELETE":
+        task = Task.query.filter_by(id=id).delete()
+        flash("Delete Task", "danger")
+        db.session.commit()
+    return redirect("/top")
 
 
 if __name__ == "__main__":
