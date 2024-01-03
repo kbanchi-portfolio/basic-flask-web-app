@@ -15,19 +15,18 @@
 </head>
 
 <body>
-    <header class="navbar navbar-light sticky-top p-0 border">
+    <header class="navbar navbar-light sticky-top p-0 border bg-dark">
         <a class="navbar-brand mx-2" href="{{ url_for('top') }}">
             <span class="fw-bold logo p-0 mx-2 text-white">BasicFlaskWebApp</span></a>
         <button class="navbar-toggler d-md-none collapsed" type="button" data-bs-toggle="collapse"
             data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
             aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon bg-white"></span>
         </button>
         <div class="d-md-block d-none">
             <div class="navbar-nav">
                 <div class="nav-item text-nowrap">
-                    <a class="nav-link px-3 fw-bold text-white" href="{{ url_for('logout') }}"><span
-                            class="fw-bold px-3">{{ current_user.email }}</span>Logout</a>
+                    <a class="nav-link px-3 fw-bold text-white" href="{{ url_for('logout') }}">Logout</a>
                 </div>
             </div>
         </div>
@@ -39,6 +38,9 @@
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link link-dark fw-bold" href="{{ url_for('top') }}">Top</a>
+                        </li>
+                        <li class="nav-item d-md-none">
+                            <a class="nav-link link-dark" href="{{ url_for('logout') }}">Logout</a>
                         </li>
                     </ul>
                 </div>

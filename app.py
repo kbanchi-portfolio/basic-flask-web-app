@@ -69,7 +69,12 @@ def load_user(id):
 
 @login_manager.unauthorized_handler
 def unauthorized():
-    return redirect("/login")
+    return redirect(url_for("login"))
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return redirect(url_for("top"))
 
 
 @app.route("/healthcheck")
@@ -110,7 +115,7 @@ def signup_processing():
         )
     )
     db.session.commit()
-    flash("Create User", "success")
+    flash("Complete Create User.", "success")
     return redirect(url_for("top"))
 
 
@@ -140,7 +145,7 @@ def logout():
 
 @app.route("/")
 def index():
-    return redirect("/top")
+    return redirect(url_for("top"))
 
 
 @app.route("/top")
@@ -167,8 +172,8 @@ def add_processing():
         )
     )
     db.session.commit()
-    flash("Create Task", "success")
-    return redirect("/top")
+    flash("Complete Create Task.", "success")
+    return redirect(url_for("top"))
 
 
 @app.route("/edit/<id>")
@@ -185,13 +190,13 @@ def edit_processing(id):
     if method == "PUT":
         task = Task.query.filter_by(id=id).first()
         task.description = request.form["description"]
-        flash("Edit Task", "success")
+        flash("Complete Edit Task.", "success")
         db.session.commit()
     elif method == "DELETE":
         task = Task.query.filter_by(id=id).delete()
-        flash("Delete Task", "danger")
+        flash("Complete Delete Task.", "danger")
         db.session.commit()
-    return redirect("/top")
+    return redirect(url_for("top"))
 
 
 if __name__ == "__main__":
