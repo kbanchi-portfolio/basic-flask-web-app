@@ -12,6 +12,7 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static//js/script.js"></script>
 </head>
 
 <body>
@@ -28,13 +29,11 @@
                 <div class="nav-item text-nowrap d-flex">
                     <a class="nav-link px-3 fw-bold text-white" href="{{ url_for('logout') }}">{{ gettext('logout')
                         }}</a>
-                    <select class="form-select bg-dark text-white border-0"
-                        onchange="window.location.href = '?lang=' + this.value;">
-                        <option value="en" {% if 'en' in request.query_string.decode('utf-8') %}selected {% else %} {%
-                            endif %}>English
+                    <select id="switchLangSelect" class="form-select bg-dark text-white border-0"
+                        onchange="switchLang();">
+                        <option value="en" {% if 'en' in session['lang'] %}selected {% else %} {% endif %}>English
                         </option>
-                        <option value="ja" {% if 'ja' in request.query_string.decode('utf-8') %}selected {% else %} {%
-                            endif %}>日本語
+                        <option value="ja" {% if 'ja' in session['lang'] %}selected {% else %} {% endif %}>日本語
                         </option>
                     </select>
                 </div>

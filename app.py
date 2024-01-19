@@ -9,6 +9,7 @@ from flask import redirect
 from flask import jsonify
 from flask import flash
 from flask import url_for
+from flask import session
 
 from flask_cors import CORS
 
@@ -36,10 +37,15 @@ load_dotenv(verbose=True)
 
 logger = get_logger()
 
+
+LANGUAGES = ["ja", "ja_JP", "en"]
+
+
 def get_locale():
     # return request.accept_languages.best_match(['ja', 'ja_JP', 'en'])
-    LANGUAGES = ['ja', 'ja_JP', 'en']
-    return request.args.get('lang') if request.args.get('lang') in LANGUAGES else None
+    # return request.args.get("lang") if request.args.get("lang") in LANGUAGES else None
+    return session["lang"] if session["lang"] in LANGUAGES else None
+
 
 app = Flask(__name__)
 CORS(app)
@@ -69,6 +75,19 @@ with app.app_context():
         db.drop_all()
         db.create_all()
     db.session.commit()
+
+
+@app.before_request
+def initialize_session():
+    if "lang" not in session:
+        session["lang"] = "en"
+
+
+@app.before_request
+def switch_language():
+    if "lang" in request.args:
+        if request.args.get("lang") in LANGUAGES:
+            session["lang"] = request.args.get("lang")
 
 
 @login_manager.user_loader
