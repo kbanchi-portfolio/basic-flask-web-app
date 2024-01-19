@@ -3,14 +3,14 @@
 {% block content %}
 <div>
     <div class="m-4">
-        <h1 class="h2 fw-bold">Top</h1>
+        <h1 class="h2 fw-bold">{{ gettext('top_title') }}</h1>
         <div class="d-flex justify-content-end mt-2">
-            <a class="link-primary text-decoration-none m-2" href="{{ url_for('add') }}">Add Task</a>
+            <a class="link-primary text-decoration-none m-2" href="{{ url_for('add') }}">{{ gettext('add_task') }}</a>
         </div>
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th>Description</th>
+                    <th>{{ gettext('description') }}</th>
                     <th>-</th>
                 </tr>
             </thead>
@@ -19,7 +19,9 @@
                 <tr>
                     <td>{{ task.description }}</td>
                     <td>
-                        <a class="btn btn-outline-success" href="{{ url_for('edit', id=task.id) }}">Edit</a>
+                        <a class="btn btn-outline-success" href="{{ url_for('edit', id=task.id) }}">{{
+                            gettext('edit_task')
+                            }}</a>
                     </td>
                 </tr>
                 {% endfor %}

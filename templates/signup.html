@@ -3,19 +3,23 @@
 {% block content %}
 <div class="text-center">
     <div class="mt-2">
-        <h1 class="h3 fst-italic">SignUp</h1>
+        <h1 class="h3 fst-italic">{{ gettext('signup') }}</h1>
         <form action="{{ url_for('signup_processing') }}" method="post">
             <div class="form-group mt-4 mb-4 mx-2">
                 <div class="row">
                     <div class="col-10 offset-1">
-                        <input class="form-control m-2" type="text" name="name" placeholder="Name" required>
-                        <input class="form-control m-2" type="email" name="email" placeholder="Email" required>
-                        <input class="form-control m-2" type="password" name="passwd" placeholder="Password" required>
+                        <input class="form-control m-2" type="text" name="name" placeholder="{{ gettext('name') }}"
+                            required>
+                        <input class="form-control m-2" type="email" name="email" placeholder="{{ gettext('email') }}"
+                            required>
+                        <input class="form-control m-2" type="password" name="passwd"
+                            placeholder="{{ gettext('password') }}" required>
                         <input class="form-control m-2" type="password" name="passwdConfirm"
-                            placeholder="Password(Confirm)" required>
-                        <input class="btn btn-success" type="submit" value="SignUp">
+                            placeholder="{{ gettext('password_confirm') }}" required>
+                        <input class="btn btn-success" type="submit" value="{{ gettext('signup') }}">
                         <div class="m-2">
-                            <a href="{{ url_for('login') }}" class="link-primary text-decoration-none">Login</a>
+                            <a href="{{ url_for('login') }}" class="link-primary text-decoration-none">{{
+                                gettext('login') }}</a>
                         </div>
                     </div>
                 </div>

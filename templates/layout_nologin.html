@@ -25,8 +25,18 @@
         </button>
         <div class="d-md-block d-none">
             <div class="navbar-nav">
-                <div class="nav-item text-nowrap">
-                    <a class="nav-link px-3 fw-bold text-white" href="{{ url_for('login') }}">Login</a>
+                <div class="nav-item text-nowrap d-flex">
+                    <a class="nav-link px-3 fw-bold text-white" href="{{ url_for('login') }}">{{
+                        gettext('login') }}</a>
+                    <select class="form-select bg-dark text-white border-0"
+                        onchange="window.location.href = '?lang=' + this.value;">
+                        <option value="en" {% if 'en' in request.query_string.decode('utf-8') %}selected {% else %} {%
+                            endif %}>English
+                        </option>
+                        <option value="ja" {% if 'ja' in request.query_string.decode('utf-8') %}selected {% else %} {%
+                            endif %}>日本語
+                        </option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -36,7 +46,8 @@
             <div class="position-sticky pt-3">
                 <ul class="nav flex-column">
                     <li class="nav-item d-md-none">
-                        <a class="nav-link link-dark fw-bold" href="{{ url_for('login') }}">Login</a>
+                        <a class="nav-link link-dark fw-bold" href="{{ url_for('login') }}">{{ gettext('login')
+                            }}</a>
                     </li>
                 </ul>
             </div>

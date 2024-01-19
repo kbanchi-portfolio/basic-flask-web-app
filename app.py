@@ -18,6 +18,9 @@ from flask_login import login_user
 from flask_login import logout_user
 from flask_login import current_user
 
+from flask_babel import Babel
+from flask_babel import gettext
+
 from database import db
 from database import User
 from database import UserSchema
@@ -33,8 +36,14 @@ load_dotenv(verbose=True)
 
 logger = get_logger()
 
+def get_locale():
+    # return request.accept_languages.best_match(['ja', 'ja_JP', 'en'])
+    LANGUAGES = ['ja', 'ja_JP', 'en']
+    return request.args.get('lang') if request.args.get('lang') in LANGUAGES else None
+
 app = Flask(__name__)
 CORS(app)
+babel = Babel(app, locale_selector=get_locale)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///sqlalchemy.db"
 # DB_USER = os.environ.get("DB_USER")
@@ -94,11 +103,11 @@ def signup_processing():
     password = request.form["passwd"]
     password_confirm = request.form["passwdConfirm"]
     if password != password_confirm:
-        flash("Password confirm does not math.", "danger")
+        flash(gettext("password_confirm_not_match"), "danger")
         return redirect(url_for("signup"))
     user = User.query.filter_by(email=email).first()
     if user:
-        flash("Email address already exists.", "danger")
+        flash(gettext("email_address_already_exists"), "danger")
         return redirect(url_for("signup"))
     generate_password_hash(
         password,
@@ -115,7 +124,7 @@ def signup_processing():
         )
     )
     db.session.commit()
-    flash("Complete Create User.", "success")
+    flash(gettext("complete_create_user"), "success")
     return redirect(url_for("top"))
 
 
@@ -133,7 +142,7 @@ def login_processing():
         if check_password_hash(user.password, password):
             login_user(user)
             return redirect(url_for("top"))
-    flash("Email or Password does not match.", "danger")
+    flash(gettext("email_or_password_does_not_match"), "danger")
     return redirect(url_for("login"))
 
 
@@ -172,7 +181,7 @@ def add_processing():
         )
     )
     db.session.commit()
-    flash("Complete Create Task.", "success")
+    flash(gettext("complete_create_task"), "success")
     return redirect(url_for("top"))
 
 
@@ -190,11 +199,11 @@ def edit_processing(id):
     if method == "PUT":
         task = Task.query.filter_by(id=id).first()
         task.description = request.form["description"]
-        flash("Complete Edit Task.", "success")
+        flash(gettext("complete_edit_task"), "success")
         db.session.commit()
     elif method == "DELETE":
         task = Task.query.filter_by(id=id).delete()
-        flash("Complete Delete Task.", "danger")
+        flash(gettext("complete_delete_task"), "danger")
         db.session.commit()
     return redirect(url_for("top"))
 

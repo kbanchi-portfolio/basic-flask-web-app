@@ -3,7 +3,7 @@
 {% block content %}
 <div>
     <div class="m-4">
-        <h1 class="h2 fw-bold">Edit Task</h1>
+        <h1 class="h2 fw-bold">{{ gettext('edit_task') }}</h1>
         <div class="form-group mt-2 mb-2">
             <div class="row">
                 <div class="col-md-10">
@@ -13,10 +13,12 @@
                                 <div class="row">
                                     <div class="col-md-10">
                                         <input class="form-control mt-2 mb-4" type="text" name="description"
-                                            placeholder="Description" value="{{ task.description }}" required>
+                                            placeholder="{{ gettext('description') }}" value="{{ task.description }}"
+                                            required>
                                         <div class="d-flex justify-content-end">
-                                            <a class="btn btn-secondary mx-2" href="{{ url_for('top') }}">Back</a>
-                                            <input class="btn btn-success" type="submit" value="Edit">
+                                            <a class="btn btn-secondary mx-2" href="{{ url_for('top') }}">{{
+                                                gettext('back') }}</a>
+                                            <input class="btn btn-success" type="submit" value="{{ gettext('edit') }}">
                                             <input type="hidden" name="_method" value="put">
                                         </div>
                                     </div>
@@ -29,7 +31,7 @@
                                     <form action="{{ url_for('edit_processing', id=task.id) }}" method="post">
                                         <input type="hidden" name="_method" value="delete">
                                         <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                            data-bs-target="#deleteModal">Delete</button>
+                                            data-bs-target="#deleteModal">{{ gettext('delete') }}</button>
                                         <!-- Modal -->
                                         <div class="modal fade" id="deleteModal" tabindex="-1"
                                             aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -37,15 +39,16 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title" id="deleteModalLabel">
-                                                            Are you sure to delete this task?
+                                                            {{ gettext('confirm_delete') }}
                                                         </h5>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Back</button>
-                                                        <input class="btn btn-danger" type="submit" value="Delete">
+                                                            data-bs-dismiss="modal">{{ gettext('back') }}</button>
+                                                        <input class="btn btn-danger" type="submit"
+                                                            value="{{ gettext('delete') }}">
                                                     </div>
                                                 </div>
                                             </div>

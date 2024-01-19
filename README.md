@@ -41,6 +41,31 @@ $ git clone git@github.com:kbanchi-portfolio/basic-flask-web-app.git
 $ pip install -r requirements.txt
 ```
 
+### Update Multilingual Message
+
+1. Create Pot file
+```
+$ pybabel extract -F ./config/babel.cfg -k lazy_gettext -o ./config/messages.pot .
+```
+2. Create Multilingual file
+```
+$ pybabel init -i ./config/messages.pot -d translations -l ja
+$ pybabel init -i ./config/messages.pot -d translations -l en
+```
+3. Update Multilingual file
+```
+$ pybabel update -i ./config/messages.pot -d translations
+```
+4. Set Multilingual messages
+```
+$ vi ./translations/ja/LC_MESSAGES/messages.po
+$ vi ./translations/en/LC_MESSAGES/messages.po
+```
+5. Compile
+```
+$ pybabel compile -f -d translations
+```
+
 ## Usage
 
 Please refer to the help documentation how to use each module.

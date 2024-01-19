@@ -3,16 +3,16 @@
 {% block content %}
 <div>
     <div class="m-4">
-        <h1 class="h2 fw-bold">Add Task</h1>
+        <h1 class="h2 fw-bold">{{ gettext('add_task') }}</h1>
         <form action="{{ url_for('add_processing') }}" method="post">
             <div class="form-group mt-2 mb-2">
                 <div class="row">
                     <div class="col-md-10">
-                        <input class="form-control mt-2 mb-4" type="text" name="description" placeholder="Description"
-                            required>
+                        <input class="form-control mt-2 mb-4" type="text" name="description"
+                            placeholder="{{ gettext('description') }}" required>
                         <div class="d-flex justify-content-end">
-                            <a class="btn btn-secondary mx-2" href="{{ url_for('top') }}">Back</a>
-                            <input class="btn btn-success" type="submit" value="Add">
+                            <a class="btn btn-secondary mx-2" href="{{ url_for('top') }}">{{ gettext('back') }}</a>
+                            <input class="btn btn-success" type="submit" value="{{ gettext('add') }}">
                         </div>
                     </div>
                 </div>
